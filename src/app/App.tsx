@@ -3,8 +3,9 @@ import Main from "./pages/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SingUp";
-import MainLayout from "./components/layout/MainLayout";
-import Product from "./pages/Product";
+import MainLayout from "./layout/main";
+import ProductDetails from "./pages/ProductDetails";
+import SignLayout from "./layout/sign/SignLayout";
 
 function App() {
     return (
@@ -13,10 +14,12 @@ function App() {
                 <Routes>
                     <Route element={<MainLayout />}>
                         <Route path="/" element={<Main />} />
-                        <Route path="products/:id" element={<Product />} />
+                        <Route path="products/:id" element={<ProductDetails />} />
                     </Route>
-                    <Route path="sign-in" element={<SignIn />} />
-                    <Route path="sign-up" element={<SignUp />} />
+                    <Route element={<SignLayout />}>
+                        <Route path="sign-in" element={<SignIn />} />
+                        <Route path="sign-up" element={<SignUp />} />
+                    </Route>
                 </Routes>
             </BrowserRouter>
         </div>

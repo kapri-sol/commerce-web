@@ -18,7 +18,7 @@ const Header = () => {
         <header className={`${isActiive ? "bg-white py-4 shadow-md" : "bg-none py-6"} fixed w-full z-10 transition-all`}>
             <div className="container mx-auto flex items-center justify-between h-full">
                 <Link to={"/"}>
-                    <img src="https://cdn-icons-png.flaticon.com/512/5948/5948079.png" alt="" className="w-[40px]" />
+                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968887.png" alt="" className="w-[40px]" />
                 </Link>
                 <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer flex relative">
                     <BsBag className="text-2xl" />

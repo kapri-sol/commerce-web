@@ -4,7 +4,7 @@ import { IoMdArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { CartContext } from "../../contexts/CartContext";
 import { SidebarContext } from "../../contexts/SidebarContext";
-import CartItem from "../cart-item/CartItem";
+import CartItem from "../../components/cart-item/CartItem";
 
 const Sidebar = () => {
     const { isOpen, handleClose } = useContext(SidebarContext);

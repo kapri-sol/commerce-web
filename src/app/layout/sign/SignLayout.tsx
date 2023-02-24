@@ -1,16 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Footer from "../footer";
-import Header from "../header/Header";
-import Sidebar from "../sidebar";
+import Header from "../header";
 
-const MainLayout = () => (
+const SignLayout = () => (
     <div>
         <Header />
-        <Sidebar />
         <Outlet />
         <Footer />
     </div>
 );
 
-export default MainLayout;
+export default SignLayout;
