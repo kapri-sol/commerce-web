@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { createContext, useEffect, useState, ReactNode } from "react";
+import MainApi from "../api/main.api";
 
 interface Props {
     children: ReactNode;
@@ -10,9 +12,8 @@ const ProductProvider = ({ children }: Props) => {
     const [products, setProducts] = useState([]);
     useEffect(() => {
         const fetchProducts = async () => {
-            const response = await fetch("https://fakestoreapi.com/products");
-            const data = await response.json();
-            console.log(data);
+            const response = await MainApi.get("/products");
+            const data = response.data;
             setProducts(data);
         };
         fetchProducts();
