@@ -8,6 +8,7 @@ import ProductDetails from "./pages/ProductDetails";
 import SignLayout from "./layout/sign/SignLayout";
 import InternalServcerError from "./pages/error/InernalServerError";
 import NotFound from "./pages/error/NotFound";
+import ProductRegist from "./pages/ProductRegist";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                     <Route element={<SignLayout />}>
                         <Route path="sign-in" element={<SignIn />} />
                         <Route path="sign-up" element={<SignUp />} />
+                        <Route path="products" element={<ProductRegist />} />
                         <Route path="internal-server-error" element={<InternalServcerError />} />
                         <Route path="/*" element={<NotFound />} />
                     </Route>

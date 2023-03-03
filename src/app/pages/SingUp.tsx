@@ -1,6 +1,8 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import MainApi from "../api/main.api";
+import { AuthContext } from "../contexts/AuthContext";
 
 const SignUp = () => {
     const [email, setEmail] = useState("");
@@ -9,17 +11,18 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
     const navigate = useNavigate();
-    const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
-        console.log("handle Submit");
+    const { setIsAuthed } = useContext(AuthContext);
 
+    const handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            await axios.post("http://localhost:8080/accounts", {
+            await MainApi.post("/accounts", {
                 email,
                 name,
                 phoneNumber,
                 password
             });
+            setIsAuthed(true);
             navigate("/sign-in");
         } catch (err) {
             console.error(err);

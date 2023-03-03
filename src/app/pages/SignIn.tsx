@@ -14,10 +14,10 @@ const SignIn = () => {
                 email,
                 password
             }).then(console.log);
-            // navigate("/");
+            navigate("/");
         } catch (err) {
             console.error(err);
-            // navigate("/internal-server-error");
+            navigate("/internal-server-error");
         }
     };
 
