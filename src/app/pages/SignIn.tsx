@@ -1,19 +1,23 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MainApi from "../api/main.api";
+import { AuthContext } from "../contexts/AuthContext";
 
 const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const { setIsAuthed } = useContext(AuthContext);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
+            e.preventDefault();
             await MainApi.post("/auth/login", {
                 email,
                 password
-            }).then(console.log);
+            });
+            sessionStorage.setItem("isAuthed", "true");
+            setIsAuthed(true);
             navigate("/");
         } catch (err) {
             console.error(err);
@@ -72,9 +76,9 @@ const SignIn = () => {
                                         </label>
                                     </div>
                                 </div>
-                                <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
+                                <Link to="/recovery-password" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
                                     Forgot password?
-                                </a>
+                                </Link>
                             </div>
                             <button
                                 type="submit"
