@@ -1,6 +1,4 @@
-import axios from "axios";
-import React, { createContext, useEffect, useState, ReactNode } from "react";
-import MainApi from "../api/main.api";
+import React, { createContext, useState, ReactNode } from "react";
 
 interface Props {
     children: ReactNode;
