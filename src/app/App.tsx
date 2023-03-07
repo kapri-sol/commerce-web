@@ -12,6 +12,7 @@ import ProductRegist from "./pages/ProductRegist";
 import Profile from "./pages/Profile";
 import Customer from "./pages/Customer";
 import RecoveryPassword from "./pages/RecoveryPassword";
+import RegisterCustomer from "./pages/RegisterCustomer";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                         <Route path="customer" element={<Customer />} />
                         <Route path="products" element={<ProductRegist />} />
                         <Route path="recovery-password" element={<RecoveryPassword />} />
+                        <Route path="register/customer" element={<RegisterCustomer />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="internal-server-error" element={<InternalServcerError />} />
                         <Route path="/*" element={<NotFound />} />

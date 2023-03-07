@@ -4,15 +4,11 @@ import MainApi from "../api/main.api";
 import Modal from "../components/Modal";
 
 const Profile = () => {
-    const [hidden, setHidden] = useState(true);
-
+    const [hidden, setHidden] = useState<boolean>(true);
     const [email, setEmail] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [checkPassword, setCheckPassword] = useState<string>("");
-
-    const [name, setName] = useState("");
-    const [address, setAddress] = useState("");
 
     const navigate = useNavigate();
 
@@ -31,22 +27,6 @@ const Profile = () => {
         }
     };
 
-    const getCustomer = async () => {
-        try {
-            const response = await MainApi.get("/customers/me");
-            const data = response.data;
-            if (data.name) {
-                setName(data.name);
-            }
-
-            if (data.address) {
-                setAddress(data.address);
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
     const onSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
@@ -62,7 +42,6 @@ const Profile = () => {
 
     useEffect(() => {
         getAccount();
-        getCustomer();
     }, []);
 
     return (
@@ -144,55 +123,6 @@ const Profile = () => {
                         </div>
                     </form>
                 </div>
-                {name && address ? (
-                    <div className="max-w-2xl px-4 py-8 mx-auto lg:py-16">
-                        <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update customer</h2>
-                        <form onSubmit={onSubmit}>
-                            <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
-                                <div className="sm:col-span-2">
-                                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                        Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        id="name"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        placeholder="Paul Kim"
-                                        required={true}
-                                    />
-                                </div>
-                                <div className="sm:col-span-2">
-                                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                        Address
-                                    </label>
-                                    <input
-                                        type="test"
-                                        name="address"
-                                        id="address"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        value={address}
-                                        onChange={(e) => setAddress(e.target.value)}
-                                        placeholder="Seoul"
-                                        required={true}
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex justify-between space-b space-x-4">
-                                <button
-                                    type="submit"
-                                    className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                                >
-                                    Update customer
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                ) : (
-                    <h2> You Must Register Customer Information. </h2>
-                )}
             </section>
             <Modal message="Success update profile" button="Ok" hidden={hidden} setHidden={setHidden} />
         </>
