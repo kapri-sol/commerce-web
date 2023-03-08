@@ -1,13 +1,13 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MainApi from "../api/main.api";
-import { AuthContext } from "../contexts/AuthContext";
+import { AccountContext } from "../contexts/AccountContext";
 
 const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const { setIsAuthed } = useContext(AuthContext);
+    const { setAccount } = useContext(AccountContext);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -16,8 +16,11 @@ const SignIn = () => {
                 email,
                 password
             });
-            sessionStorage.setItem("isAuthed", "true");
-            setIsAuthed(true);
+            sessionStorage.setItem("account", JSON.stringify({ email, password }));
+            setAccount({
+                email,
+                password
+            });
             navigate("/");
         } catch (err) {
             console.error(err);

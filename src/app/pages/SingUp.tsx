@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MainApi from "../api/main.api";
 import Modal from "../components/Modal";
-import { AuthContext } from "../contexts/AuthContext";
 
 const SignUp = () => {
     const [accountHidden, setAccountHidden] = useState(true);
@@ -13,8 +12,6 @@ const SignUp = () => {
     const [checkPassword, setCheckPassword] = useState("");
 
     const navigate = useNavigate();
-
-    const { setIsAuthed } = useContext(AuthContext);
 
     const onClickBtn = () => {
         navigate("/customer");
@@ -33,7 +30,6 @@ const SignUp = () => {
                 email,
                 password
             });
-            setIsAuthed(true);
             sessionStorage.setItem("isAuthed", "true");
         } catch (err) {
             console.error(err);

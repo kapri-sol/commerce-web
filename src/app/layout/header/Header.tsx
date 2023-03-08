@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { BsBag } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import MainApi from "../../api/main.api";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AccountContext } from "../../contexts/AccountContext";
 import { CartContext } from "../../contexts/CartContext";
 import { SidebarContext } from "../../contexts/SidebarContext";
 
@@ -12,7 +12,7 @@ const Header = () => {
 
     const { isOpen, setIsOpen } = useContext(SidebarContext);
     const { itemAmount } = useContext(CartContext);
-    const { isAuthed, setIsAuthed } = useContext(AuthContext);
+    const { account, setAccount } = useContext(AccountContext);
     const navigate = useNavigate();
 
     const isAuthedSession = sessionStorage.getItem("isAuthed") === "true" ? true : false;
@@ -20,8 +20,8 @@ const Header = () => {
     const signOut = async () => {
         try {
             await MainApi.post("/auth/logout");
-            setIsAuthed(false);
-            sessionStorage.removeItem("isAuthed");
+            setAccount(false);
+            sessionStorage.removeItem("account");
             navigate("/");
         } catch (err) {
             console.error(err);
@@ -53,7 +53,7 @@ const Header = () => {
                         <img src="https://cdn-icons-png.flaticon.com/512/3698/3698348.png" className="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
                         <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">My Shop</span>
                     </Link>
-                    {isAuthed ? (
+                    {account ? (
                         <div className="flex items-center md:order-2">
                             <button
                                 type="button"
@@ -67,7 +67,7 @@ const Header = () => {
                                 <span className="sr-only">Open user menu</span>
                                 <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
                             </button>
-                            <div className={`z-50 ${drop ? "block" : "hidden"} absolute top-10 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"`} id="user-dropdown">
+                            <div className={`z-50 ${drop ? "block" : "hidden"} absolute top-10 right-5 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"`} id="user-dropdown">
                                 <div className="px-4 py-3">
                                     <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
                                     <span className="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
