@@ -1,11 +1,13 @@
 import React, { DragEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MainApi from "../api/main.api";
+import Modal from "../components/Modal";
 const ProductRegist = () => {
+    const [hidden, setHidden] = useState<boolean>(true);
     const [name, setName] = useState<string>();
     const [price, setPrice] = useState<string>();
     const [stockQuantity, setStockQuantity] = useState<string>();
-    const [decription, setDecription] = useState<string>();
+    const [description, setDescription] = useState<string>();
     const [file, setFile] = useState<File | null>(null);
     const [image, setImage] = useState<string | null>(null);
     const navigate = useNavigate();
@@ -30,9 +32,9 @@ const ProductRegist = () => {
         try {
             await MainApi.post("/products", {
                 name,
-                price,
-                stockQuantity,
-                decription,
+                price: Number(price),
+                stockQuantity: Number(stockQuantity),
+                description,
                 image
             });
             navigate("/");
@@ -99,8 +101,8 @@ const ProductRegist = () => {
                             <textarea
                                 id="description"
                                 rows={8}
-                                value={decription}
-                                onChange={(e) => setDecription(e.target.value)}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
                                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Your description here"
                             ></textarea>
@@ -141,6 +143,7 @@ const ProductRegist = () => {
                         Add product
                     </button>
                 </form>
+                <Modal message="Add product success" button="Ok" hidden={hidden} setHidden={setHidden} />
             </div>
         </section>
     );

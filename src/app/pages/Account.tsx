@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MainApi from "../api/main.api";
 import Modal from "../components/Modal";
 
-const Profile = () => {
+const Account = () => {
     const [hidden, setHidden] = useState<boolean>(true);
     const [email, setEmail] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -118,7 +118,7 @@ const Profile = () => {
                                 type="submit"
                                 className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
-                                Update account
+                                Update
                             </button>
                         </div>
                     </form>
@@ -129,4 +129,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default Account;

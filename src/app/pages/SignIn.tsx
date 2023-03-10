@@ -16,10 +16,11 @@ const SignIn = () => {
                 email,
                 password
             });
-            sessionStorage.setItem("account", JSON.stringify({ email, password }));
+            const { data } = await MainApi.get("/accounts/me");
+            sessionStorage.setItem("account", JSON.stringify({ email: data.email, name: data.name }));
             setAccount({
                 email,
-                password
+                name: data.name
             });
             navigate("/");
         } catch (err) {

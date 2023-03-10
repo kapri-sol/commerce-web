@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import { BsTrash } from "react-icons/bs";
 import { IoMdArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { CartContext } from "../../contexts/CartContext";
-import { SidebarContext } from "../../contexts/SidebarContext";
-import CartItem from "../../components/cart-item/CartItem";
+import { CartContext } from "../contexts/CartContext";
+import { SidebarContext } from "../contexts/SidebarContext";
+import CartItem from "../components/cart-item/CartItem";
 
 const Sidebar = () => {
     const { isOpen, handleClose } = useContext(SidebarContext);

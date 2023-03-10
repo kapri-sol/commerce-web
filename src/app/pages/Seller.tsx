@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import MainApi from "../api/main.api";
 import Modal from "../components/Modal";
 
-const Customer = () => {
+const Seller = () => {
     const [modlHidden, setModalHidden] = useState<boolean>(true);
-    const [isExistCustomer, setIsExistCustomer] = useState<boolean>(false);
+    const [isExistSeller, setIsExistSeller] = useState<boolean>(false);
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState<string>("");
     const [address, setAddress] = useState<string>("");
@@ -15,7 +15,7 @@ const Customer = () => {
     const onSubmitUpdate = async (e: React.MouseEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
-            await MainApi.patch("/customers", {
+            await MainApi.patch("/sellers", {
                 name: name || null,
                 address: address || null
             });
@@ -28,20 +28,21 @@ const Customer = () => {
     const onSubmitRegister = async (e: React.MouseEvent<HTMLFormElement>) => {
         try {
             e.preventDefault();
-            await MainApi.post("/customers", {
+            await MainApi.post("/sellers", {
                 name: name || null,
                 address: address || null
             });
             setName(name);
             setAddress(address);
+            navigate("/seller");
         } catch (err) {
             console.error(err);
         }
     };
 
-    const getCustomer = async () => {
+    const getSeller = async () => {
         try {
-            const { data } = await MainApi.get("/customers/me");
+            const { data } = await MainApi.get("/sellers/me");
             const { name, address } = data;
 
             if (name) {
@@ -53,7 +54,7 @@ const Customer = () => {
             }
 
             if (name && address) {
-                setIsExistCustomer(true);
+                setIsExistSeller(true);
                 setLoading(false);
             }
         } catch (err) {
@@ -63,7 +64,8 @@ const Customer = () => {
     };
 
     useEffect(() => {
-        getCustomer();
+        console.log("call");
+        getSeller();
     }, []);
 
     return loading ? (
@@ -79,9 +81,9 @@ const Customer = () => {
     ) : (
         <section className="bg-white dark:bg-gray-900">
             <div className="max-w-2xl px-4 py-8 mx-auto lg:py-16">
-                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">{isExistCustomer ? "Update customer" : "Register customer"} </h2>
+                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">{isExistSeller ? "Update seller" : "Register seller"} </h2>
 
-                <form onSubmit={isExistCustomer ? onSubmitUpdate : onSubmitRegister}>
+                <form onSubmit={isExistSeller ? onSubmitUpdate : onSubmitRegister}>
                     <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
                         <div className="sm:col-span-2">
                             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -119,7 +121,7 @@ const Customer = () => {
                             type="submit"
                             className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                         >
-                            {isExistCustomer ? "Update" : "Register"}
+                            {isExistSeller ? "Update" : "Register"}
                         </button>
                     </div>
                     <Modal message="Success" button="ok" hidden={modlHidden} setHidden={setModalHidden} />
@@ -128,5 +130,4 @@ const Customer = () => {
         </section>
     );
 };
-
-export default Customer;
+export default Seller;

@@ -13,9 +13,7 @@ root.render(
         <SidebarProvider>
             <CartProvider>
                 <ProductProvider>
-                    <React.StrictMode>
-                        <App />
-                    </React.StrictMode>
+                    <App />
                 </ProductProvider>
             </CartProvider>
         </SidebarProvider>
