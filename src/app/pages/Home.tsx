@@ -1,28 +1,46 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, {useContext, useEffect, useState} from "react";
+import {Link, useSearchParams} from "react-router-dom";
 import Product from "../components/product";
-import { ProductContext } from "../contexts/ProductContext";
+import { ProductPage} from "../type/ProductPage.type";
+import MainApi from "../api/main.api";
 
 const Home = () => {
-    const { products } = useContext(ProductContext);
+    const [searchParams, setSearchParams] = useSearchParams()
+    const page = searchParams.get("page")
+    const size = searchParams.get("size")
+
+    const [productPage, setProductPage] = useState<ProductPage>({
+        content: [],
+        size: 0,
+        totalPage: 0
+    });
+
+    if(page === null && size === null) {
+        setSearchParams({
+            page: "1",
+            size: "5"
+        })
+    }
+
+    const getProducts = async () => {
+        const response = await MainApi.get(`/products?page=${Number(page)-1}&size=${5}`);
+        const productPage: ProductPage = response.data;
+        setProductPage(productPage);
+    };
+
+    useEffect(() => {
+        getProducts();
+    }, [searchParams]);
 
     return (
         <section className="py-16">
             <div className="container mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
-                    {products.map((product: any) => {
+                    {productPage.content.map((product: any) => {
                         return <Product key={product.id} product={product} />;
                     })}
                 </div>
             </div>
-
-            {/* <div className="container mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
-                    {products.map((product: any) => (
-                        <div>{product.name}</div>
-                    ))}
-                </div>
-            </div> */}
             <div className="flex justify-center">
                 <nav aria-label="Page navigation example">
                     <ul className="inline-flex items-center -space-x-px">
@@ -37,43 +55,25 @@ const Home = () => {
                                 </svg>
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                to="#"
-                                className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                            >
-                                1
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="#"
-                                className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                            >
-                                2
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" aria-current="page" className="z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
-                                3
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="#"
-                                className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                            >
-                                4
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="#"
-                                className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                            >
-                                5
-                            </Link>
-                        </li>
+                        {
+                            Array.from({length: productPage.totalPage}, (_, i) => i+1).map((i) => (
+                                <li>
+                                    {Number(page) === i ?
+                                        <Link to={`/?page=${i}`} aria-current="page"
+                                              className="z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+                                        >
+                                            {i}
+                                        </Link>:
+                                        <Link to={`/?page=${i}`}
+                                              className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                        >
+                                            {i}
+                                        </Link>
+                                    }
+                                </li>
+                            ))
+
+                        }
                         <li>
                             <Link
                                 to="#"
